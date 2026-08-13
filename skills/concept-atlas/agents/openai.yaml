@@ -1,0 +1,4 @@
+interface:
+  display_name: "Concept Atlas"
+  short_description: "Trace concepts from origins to modern use"
+  default_prompt: "Use $concept-atlas to research the genealogy of a concept for a novice."

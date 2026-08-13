@@ -1,0 +1,25 @@
+{
+  "name": "concept-atlas",
+  "version": "0.1.0",
+  "description": "Cited concept genealogy and beginner knowledge frameworks.",
+  "author": {
+    "name": "byydsky"
+  },
+  "keywords": [
+    "concept-history",
+    "research",
+    "evidence",
+    "genealogy",
+    "interdisciplinary"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Concept Atlas",
+    "shortDescription": "Trace a concept's cited evolution and modern use.",
+    "longDescription": "Researches a concept's genealogy, role-separated history, cross-domain transfers, current meanings, and novice prerequisite map with a claim-source ledger.",
+    "developerName": "byydsky",
+    "category": "Research",
+    "capabilities": [],
+    "defaultPrompt": "Use $concept-atlas to build a cited beginner concept atlas for entropy."
+  }
+}
