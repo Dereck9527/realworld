@@ -1,0 +1,138 @@
+{
+  "demo": true,
+  "provenance": { "kind": "demo-fixture", "lastReviewed": "2026-08-13", "freshness": "bundled-offline-fixture" },
+  "concept": "熵",
+  "lastReviewed": "2026-08-13",
+  "plan": {
+    "version": "0.3.0",
+    "concept": "熵",
+    "settings": { "language": "zh-CN", "audience": "beginner", "depth": "standard" },
+    "disambiguationPrompts": ["本演示将“熵”限定于热力学、统计解释和信息论的概念路径。", "本演示不声称覆盖所有语言传统或实时研究。"],
+    "researchDimensions": [{ "order": 1, "name": "定义与歧义" }, { "order": 2, "name": "问题与前驱概念" }, { "order": 3, "name": "命名与形式化" }, { "order": 4, "name": "采用、争议与转移" }, { "order": 5, "name": "当前用法与边界" }],
+    "searchQueryGroups": [{ "purpose": "primary", "queries": ["熵 原始文献", "entropy site:doi.org"] }, { "purpose": "reviews", "queries": ["熵 历史综述"] }, { "purpose": "transfer", "queries": ["entropy 跨学科应用"] }],
+    "evidenceRequirements": ["优先原始论文、专著、学术综述与机构参考资料。", "区分可核查主张与解释性推断。", "区分时间先后与因果解释，并记录不确定性。"],
+    "status": "planned"
+  },
+  "evidenceCards": [
+    {
+      "id": "carnot-1824", "claim": "Carnot 的热机研究提出以热与功的关系分析热力问题，是本演示追溯熵之前驱问题框架。", "claimType": "precursor",
+      "historicalContext": "19 世纪早期蒸汽机已经进入工业生产，但工程师仍缺少一种原则性方法来区分设计损耗与任何热机都无法突破的上限。Carnot 在当时的热质说背景下研究理想热机，因此这里把他的工作视为问题框架的前驱，而不是现代熵定义。",
+      "mechanism": "把热机抽象成在高温热源与低温热源之间循环工作的系统，并用理想可逆过程作为比较基准。关键转变是：不再只问某台机器做了多少功，而是问温差、循环过程与可逆性怎样共同限制热转化为功。",
+      "problemSolved": "它提供了比较不同热机的共同尺度，并把“效率不够高”从单纯的制造缺陷问题提升为受自然过程约束的问题。",
+      "concreteExample": {
+        "title": "比较两台使用不同工质的理想热机",
+        "scenario": "设想蒸汽机与空气机都在同一高温热源和低温冷凝器之间运行。我们暂不研究活塞材料等细节，只比较它们能否通过可逆循环达到同一理想极限。",
+        "walkthrough": ["热量从高温端进入工质，工质膨胀并对外做功。", "循环必须把未转化的热量排向低温端，工质才能回到初态。", "若两台可逆机器在相同温度边界下仍有不同效率，效率更低者可被另一台反向驱动而造成矛盾；因此理想极限主要由温度边界决定，而非工质名称。"],
+        "insight": "这个思想实验把注意力从机器零件转向过程结构：后来的熵正是描述过程方向和可逆极限的状态量。"
+      },
+      "frameworkSignificance": "它建立了熵概念的底层问题：为什么有些能量转化虽不违反能量守恒，却仍然不可能完全逆转。",
+      "sourceUrl": "https://archive.org/details/reflectionsonmoti00carn", "sourceTitle": "Reflections on the Motive Power of Fire", "sourceType": "book", "publicationDate": "1824",
+      "evidenceSummary": "该书围绕热机的动力与效率提出问题框架；本卡只把它标为前驱，不称其定义了熵。", "confidence": "high", "inference": false, "disputes": ["前驱关系表示问题连续性，不等于术语或公式的直接等同。"], "supports": []
+    },
+    {
+      "id": "clausius-1865-coinage", "claim": "Clausius 的 1865 年论文使用“Entropie”这一名称来讨论热力学量；本卡只记录该文献中的命名用法，不作最早命名的绝对断言。", "claimType": "coinage",
+      "historicalContext": "能量守恒已经能记账热与功，却不能单独说明热为何自发从高温流向低温。Clausius 需要一个量，把第二定律关于过程方向的限制写进统一的数学语言。",
+      "mechanism": "对可逆微小过程使用 dS = δQ_rev/T，将经温度加权的可逆热量变化定义为状态量变化。因为 S 只依赖端点，同一初态和终态之间可以选择便于计算的可逆路径。",
+      "problemSolved": "它把分散的热过程方向判断转化为可累计、可比较的状态量计算，也让封闭循环中的第二定律具有统一表达。",
+      "concreteExample": {
+        "title": "100 J 可逆热量在 400 K 下对应多少熵变化",
+        "scenario": "一个系统在恒定 400 K 边界上可逆地吸收 100 J 热量；这是用 Clausius 关系展示量纲和温度权重的教学算例，不声称是论文中的原样实验。",
+        "walkthrough": ["写出关系 ΔS = Q_rev/T。", "代入 100 J ÷ 400 K，得到系统 ΔS = 0.25 J/K。", "若同样 100 J 在 200 K 可逆吸收，ΔS 会是 0.50 J/K；同样热量在较低温度下具有更大的熵权重。"],
+        "insight": "熵不是热量的别名；它把热量与发生交换时的温度结合起来。"
+      },
+      "frameworkSignificance": "命名与状态量形式化使“过程方向”成为可计算对象，并为热力学第二定律形成统一范式提供核心变量。",
+      "sourceUrl": "https://doi.org/10.1002/andp.18652010702", "sourceTitle": "Ueber verschiedene für die Anwendung bequeme Formen der Hauptgleichungen der mechanischen Wärmetheorie", "sourceType": "primary-paper", "publicationDate": "1865",
+      "evidenceSummary": "该论文是 Clausius 的 1865 年热理论论文；本演示以其作为可核查的术语使用来源，并保留优先权范围的不确定性。", "confidence": "high", "inference": false, "disputes": ["此卡不声称该文献是所有语境中的首次命名。"], "supports": []
+    },
+    {
+      "id": "clausius-1879", "claim": "Clausius 的英文专著版本系统呈现了以可逆热量比定义熵的热力学形式化。", "claimType": "formalization",
+      "historicalContext": "概念从论文进入系统专著后，需要成为可教学、可用于多种循环问题的稳定工具，而不只是某篇论文中的局部记号。",
+      "mechanism": "把熵作为状态函数用于完整循环：系统回到初态时自身净熵变为零；可逆循环各次热交换的 Q/T 收支相抵，而不可逆过程必须把额外熵产生纳入总账。",
+      "problemSolved": "它让研究者能检验一组热交换是否与可逆循环相容，并把机器循环、物态变化等问题放入同一状态函数框架。",
+      "concreteExample": {
+        "title": "两热源可逆循环的熵账本",
+        "scenario": "理想循环从 400 K 热源吸收 600 J，并向 300 K 冷源排出 450 J。",
+        "walkthrough": ["系统从热源获得的熵输入为 600/400 = 1.5 J/K。", "系统向冷源排出的熵为 450/300 = 1.5 J/K。", "两项相抵，工质完成循环后净熵变为零；能量差 150 J 可表现为净功。"],
+        "insight": "能量账本回答数量去了哪里，熵账本进一步检验过程结构是否可逆。"
+      },
+      "frameworkSignificance": "它把单次热交换扩展为循环级约束，奠定用状态变量分析热机、制冷机和材料过程的通用方法。",
+      "sourceUrl": "https://archive.org/details/themechanicalthe00clau", "sourceTitle": "The Mechanical Theory of Heat", "sourceType": "book", "publicationDate": "1879",
+      "evidenceSummary": "该专著的熵章节给出热力学记号和可逆过程的表述，适合作为早期形式化的可核查入口。", "confidence": "high", "inference": false, "disputes": ["本示例不把术语或优先权归因简化为单一事件。"], "supports": []
+    },
+    {
+      "id": "planck-1901", "claim": "Planck 在 1901 年的黑体辐射工作把熵与微观状态数的统计关系联系起来。", "claimType": "formalization",
+      "historicalContext": "经典理论难以给出与实验一致的黑体辐射能谱。Planck 在能量元假设下计算不同能量分配方式，将宏观辐射定律与微观组合计数联系起来。",
+      "mechanism": "用 W 表示与某个宏观状态相容的微观安排数，并以 S = k ln W 连接概率计数与热力学熵。对数把独立系统的微观态数相乘转换成熵相加。",
+      "problemSolved": "它提供了从微观可能性推导宏观熵及辐射分布的路线，使熵获得统计解释而不再只是热量积分的形式变量。",
+      "concreteExample": {
+        "title": "微观安排数增加八倍时的熵变化",
+        "scenario": "比较两个宏观状态：状态 A 只有 1 种相容微观安排，状态 B 有 8 种。",
+        "walkthrough": ["分别写出 S_A = k ln 1 = 0 与 S_B = k ln 8。", "因此 ΔS = k ln 8 = 3k ln 2。", "B 并非因某个微观排列被赋予目的而更常见，而是因为实现同一宏观描述的方式更多。"],
+        "insight": "统计熵把“宏观上更可能”解释为“微观实现方式更多”。"
+      },
+      "frameworkSignificance": "这一步建立宏观状态量与微观概率空间之间的桥梁，成为统计力学的核心解释模式。",
+      "sourceUrl": "https://doi.org/10.1002/andp.19013090310", "sourceTitle": "Ueber das Gesetz der Energieverteilung im Normalspectrum", "sourceType": "primary-paper", "publicationDate": "1901",
+      "evidenceSummary": "论文以黑体辐射问题为背景，使用概率与熵的关系推进能量分布推导。", "confidence": "high", "inference": false, "disputes": ["从公式到“统计解释”的教学叙述仍需区分原文、后续阐释与 Boltzmann 传统。"], "supports": []
+    },
+    {
+      "id": "shannon-1948", "claim": "Shannon 在 1948 年将 entropy 一词用于通信的数学理论，并以消息概率分布定义信息度量。", "claimType": "transfer",
+      "historicalContext": "通信工程需要在噪声、带宽与编码成本之间做定量设计，但“消息包含多少信息”此前缺少与具体语义无关的统一尺度。",
+      "mechanism": "对离散消息源定义 H(X) = -Σ p(x) log₂p(x)。低概率事件带来更大自信息，平均后得到消息源每个符号的不确定性，并与无损编码的平均长度建立联系。",
+      "problemSolved": "它使工程师能够估计数据可压缩到什么程度、信道需要多少容量，以及不同概率分布造成多少平均不确定性。",
+      "concreteExample": {
+        "title": "公平硬币与偏置硬币的信息熵",
+        "scenario": "消息源每次发送 H 或 T。先比较各占 1/2 的公平源，再比较 H 概率 0.99、T 概率 0.01 的偏置源。",
+        "walkthrough": ["公平源的 H = -2×(1/2)log₂(1/2) = 1 bit。", "偏置源代入同一公式约为 0.081 bit。", "公平源难预测，平均需要更多编码资源；偏置源大多数时候可预料，更容易压缩。"],
+        "insight": "信息熵度量的是概率分布的不确定性，不是消息在日常语言中的重要性。"
+      },
+      "frameworkSignificance": "熵由热物理迁移到抽象概率分布，形成信息论范式，并为编码、统计推断和机器学习提供共同语言。",
+      "sourceUrl": "https://doi.org/10.1002/j.1538-7305.1948.tb01338.x", "sourceTitle": "A Mathematical Theory of Communication", "sourceType": "primary-paper", "publicationDate": "1948",
+      "evidenceSummary": "论文提出通信系统的数学框架，并给出后来常被称为信息熵的量。", "confidence": "high", "inference": false, "disputes": ["热力学熵与信息熵的相似性不等于两者在所有解释层面相同。"], "supports": []
+    },
+    {
+      "id": "cover-thomas-2006", "claim": "信息论教材把 entropy 作为离散随机变量不确定性的基本度量，并在编码问题中使用。", "claimType": "adoption",
+      "historicalContext": "信息熵从原创理论进入标准教材，意味着它已成为工程与数学训练中的常规工具，需要能直接指导编码构造而非停留在定义层面。",
+      "mechanism": "高概率符号分配短码、低概率符号分配长码；熵给出理想平均码长的下界，前缀码则把这一原则变成可解码的具体码字。",
+      "problemSolved": "它回答给定符号概率时平均至少需要多少比特，并指导构造接近该下界的无损编码。",
+      "concreteExample": {
+        "title": "四符号源的前缀编码",
+        "scenario": "符号 A、B、C、D 的概率分别为 1/2、1/4、1/8、1/8，可分配码字 0、10、110、111。",
+        "walkthrough": ["该码没有任何码字是另一码字的前缀，因此接收者可逐位唯一解码。", "平均长度为 1/2×1 + 1/4×2 + 1/8×3 + 1/8×3 = 1.75 bit。", "按熵公式计算也得到 1.75 bit，因此这个概率结构下编码达到熵界。"],
+        "insight": "熵不仅描述不确定性，还能转化为可实现的资源下界和编码方案。"
+      },
+      "frameworkSignificance": "这一采用阶段把抽象定义沉淀为标准解题范式：概率分布 → 熵 → 理论界限 → 算法构造。",
+      "sourceUrl": "https://doi.org/10.1002/047174882X", "sourceTitle": "Elements of Information Theory", "sourceType": "book", "publicationDate": "2006",
+      "evidenceSummary": "教材从离散随机变量定义熵，并将其用于数据压缩与编码定理的讨论。", "confidence": "high", "inference": false, "disputes": [], "supports": ["shannon-1948"]
+    },
+    {
+      "id": "nist-2022", "claim": "NIST 的常数参考资料保留玻尔兹曼常数及其与熵单位的关系，显示熵仍是计量与热物理语境中的现行概念。", "claimType": "current-use",
+      "historicalContext": "现代 SI 将玻尔兹曼常数固定为精确值，使温度尺度与能量尺度通过一个确定常数连接；熵因此进入计量标准和实验结果的单位体系。",
+      "mechanism": "玻尔兹曼常数 k = 1.380649×10⁻²³ J/K，把无量纲的微观态对数转换成以 J/K 表示的热力学熵。",
+      "problemSolved": "它让微观统计计算、温度测量和宏观热力学量使用一致且可复现的单位换算。",
+      "concreteExample": {
+        "title": "微观态数翻倍对应的 SI 熵增",
+        "scenario": "某系统可实现的等概率微观态数从 W 增加到 2W。",
+        "walkthrough": ["由 S = k ln W，变化量为 ΔS = k ln(2W) - k ln W = k ln 2。", "代入精确的 k，得到约 9.57×10⁻²⁴ J/K。", "同一个“翻倍”在无量纲计数层面是 ln 2，在热力学计量层面通过 k 获得 J/K 单位。"],
+        "insight": "k 是统计描述与可测热力学单位之间的尺度桥梁。"
+      },
+      "frameworkSignificance": "它表明熵并非仅是历史概念，而是嵌入现代 SI、统计物理与精密测量的基础量。",
+      "sourceUrl": "https://physics.nist.gov/cgi-bin/cuu/Value?k", "sourceTitle": "NIST CODATA Value: Boltzmann constant", "sourceType": "institutional-reference", "publicationDate": "2022",
+      "evidenceSummary": "NIST 的 CODATA 页面列出玻尔兹曼常数及相关单位，提供当代标准参考入口。", "confidence": "high", "inference": false, "disputes": [], "supports": []
+    },
+    {
+      "id": "macKay-2003", "claim": "机器学习与贝叶斯推断教材在模型选择、编码与概率推断中采用信息熵，展示其在统计与计算领域的持续用法。", "claimType": "current-use",
+      "historicalContext": "现代学习系统面对的核心问题之一，是如何量化模型对未知变量的不确定性，以及一次观测究竟减少了多少不确定性。",
+      "mechanism": "把模型、类别或参数的后验概率看作分布，用熵概括其不确定性；观测前后熵的下降可解释为信息增益，并可用于实验选择、决策树或主动学习。",
+      "problemSolved": "它提供了跨模型可比较的“不确定程度”和“新数据价值”尺度，帮助算法选择最有区分力的观测或划分。",
+      "concreteExample": {
+        "title": "一次观测减少了多少模型不确定性",
+        "scenario": "观测前两个假设 M₁、M₂ 的概率各为 0.5；得到数据后更新为 0.9 与 0.1。",
+        "walkthrough": ["观测前熵为 1 bit，表示两个假设完全难分。", "观测后熵约为 -0.9log₂0.9-0.1log₂0.1 = 0.469 bit。", "熵下降约 0.531 bit，可作为这次数据提供的信息量；若可选择实验，就优先考虑预期熵下降更大的实验。"],
+        "insight": "在机器学习中，熵把“模型不确定”变成可用于选择数据和行动的量。"
+      },
+      "frameworkSignificance": "当前用法延续了 Shannon 的概率结构，同时把熵嵌入推断—学习—决策闭环，展示跨领域概念的再次演化。",
+      "sourceUrl": "https://www.inference.org.uk/mackay/itila/", "sourceTitle": "Information Theory, Inference, and Learning Algorithms", "sourceType": "book", "publicationDate": "2003",
+      "evidenceSummary": "开放教材把信息论与推断、学习算法并置，提供跨统计与计算语境的教学证据。", "confidence": "medium", "inference": false, "disputes": ["“熵”在不同应用中可指不同技术定义，报告不把它们合并为单一实体。"], "supports": ["cover-thomas-2006"]
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "concept-atlas": {
+      "command": "bun",
+      "args": ["./mcp/server.ts"]
+    }
+  }
+}

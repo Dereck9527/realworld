@@ -1,25 +1,19 @@
 {
   "name": "concept-atlas",
-  "version": "0.1.0",
-  "description": "Cited concept genealogy and beginner knowledge frameworks.",
+  "version": "0.3.0",
+  "description": "证据优先的概念谱系研究本地 Codex 插件。",
   "author": {
-    "name": "byydsky"
+    "name": "Concept Atlas Local Maintainers"
   },
-  "keywords": [
-    "concept-history",
-    "research",
-    "evidence",
-    "genealogy",
-    "interdisciplinary"
-  ],
   "skills": "./skills/",
   "interface": {
     "displayName": "Concept Atlas",
-    "shortDescription": "Trace a concept's cited evolution and modern use.",
-    "longDescription": "Researches a concept's genealogy, role-separated history, cross-domain transfers, current meanings, and novice prerequisite map with a claim-source ledger.",
-    "developerName": "byydsky",
+    "shortDescription": "证据优先的概念谱系研究工作流",
+    "longDescription": "在 Codex 本地运行的概念谱系研究工具：规划问题、校验证据卡并由已提供的证据生成报告。",
+    "developerName": "Concept Atlas Local Maintainers",
     "category": "Research",
-    "capabilities": [],
-    "defaultPrompt": "Use $concept-atlas to build a cited beginner concept atlas for entropy."
-  }
+    "capabilities": ["MCP", "Skills"],
+    "defaultPrompt": ["为“熵”建立证据优先的概念谱系研究计划。"]
+  },
+  "mcpServers": "./.mcp.json"
 }

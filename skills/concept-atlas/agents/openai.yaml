@@ -1,4 +1,4 @@
 interface:
-  display_name: "Concept Atlas"
-  short_description: "Trace concepts from origins to modern use"
-  default_prompt: "Use $concept-atlas to research the genealogy of a concept for a novice."
+  display_name: "概念图谱"
+  short_description: "证据优先的概念谱系研究工作流与工具"
+  default_prompt: "使用 $concept-atlas 为“熵”规划证据优先的概念谱系研究。"

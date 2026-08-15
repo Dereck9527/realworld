@@ -1,26 +1,34 @@
 ---
 name: concept-atlas
-description: Build cited concept origins, intellectual history and genealogy, evolution and paradigm formation, interdisciplinary/domain transfer, contemporary meanings/applications/user communities, and novice knowledge frameworks.
+description: 以证据优先方式研究、理解、追溯、映射或解释概念的起源、演变、谱系、跨学科转移与当代用法时使用；适用于需要区分术语歧义、年代、因果、争议和不确定性的中文或英文概念研究。
 ---
 
-# Concept Atlas
+# 概念图谱研究
 
-Turn a novice's concept question into a transparent, evidence-reviewed genealogy—not a single-inventor story or a citation-shaped guess.
+使用 Concept Atlas 将“概念史”变成可核查的证据链，而不是流畅但不可追溯的故事。研究计划、证据校验和报告生成保持本地确定性；需要实时资料时，使用本地适配器公开的 Keenable 网页工具，并将其结果继续转化为可校验证据卡。
 
-## Intake gate
+## 工作流
 
-Require the concept. Accept optional domain/context, audience level, depth (`quick`, `standard`, or `deep`), language, evidence cutoff, and output preference. Ask a question only when different meanings or contexts would materially change the result; otherwise state the chosen assumption and proceed. Read [the report contract](references/report-contract.md) before drafting.
+1. 调用 `plan_concept_research`，确认概念的学科义项、受众和深度。先消歧，再检索。
+2. 使用 `search_web_pages` 执行计划中的检索组；需要时同时检索中文术语、英文术语、旧拼写和原文语言。可用 `site` 和日期过滤收窄范围。对重要结果调用 `fetch_page_content` 取得页面内容；搜索摘要只作线索。
+3. Keenable 密钥只应由启动本地 MCP 进程的 `KENABLE_API_KEY` 环境变量提供。绝不把密钥放入工具参数、卡片、报告或配置文件。未设置时可尝试匿名调用，但不得把认证失败解释为资料缺失。
+4. 按来源层级收集卡：原始论文/档案和专著优先；再用学术综述定位分歧；机构参考资料补充现行定义。搜索结果、百科或未署名网页只能作线索，不能替代关键主张证据。
+5. 每个谱系节点都必须成为一个可学习的知识单元，而不是一句摘要。分别填写历史/应用情境、核心机制、解决的问题、可逐步推演的具体实例，以及该节点对整体知识框架的意义。实例要展示概念如何工作，不能只是换一种说法重复主张。
+6. 把每个可检查主张与解释分开。事实主张使用一张或多张证据卡；解释性连接必须设 `inference: true`。在 `disputes` 写入竞争性解释、范围限制或缺失资料。
+7. 调用 `validate_evidence_cards`。修复所有错误后才调用 `render_concept_report`；渲染器会重复使用同一校验器并在失败时拒绝。公式呈现默认使用 `mathMode: "portable"`，以保证普通 Markdown 阅读器可读；需要 MathJax/KaTeX 兼容 Markdown 时使用 `"latex"`，需要独立网页时使用 `"html"`。
+8. 交付时明确区分时间先后、因果机制与类比迁移；报告尚不能支持的结论应写入不确定性，而不是补写。
+9. 需要有界、可审计的自动循环时，调用 `research_concept` 并提供 `concept` 与 `scope`。它会保存 run、来源的不可变内容快照、卡—快照证据定位、缺口、冲突审阅信号和 run 专属图；用 `get_research_run` 与 `export_concept_graph` 读取结果。恢复时不得改变语言、受众、深度或两个上限。
 
-## Research gate
+## 特别规则
 
-When web research is available and allowed, browse for origin, history, and current-use claims; open and read the sources rather than relying on search snippets. Automatic web research requires the external Keenable web adapter and the `KENABLE_API_KEY` environment variable to be configured before the adapter/Codex process starts. Never place the key in tool arguments, plugin files, evidence cards, reports, logs, or Git history. Follow [source and evidence policy](references/source-evidence-policy.md), then use [roles and ledger](references/roles-ledger.md) to decompose the question and attach sources before writing. If browsing is unavailable, authentication fails, or browsing is prohibited, call the result `provisional`, state the limitation truthfully, and do not interpret authentication failure as evidence that sources do not exist.
+- 不把最早出现、首次命名、首次形式化和首次广泛采用混为一谈。
+- `first`、`earliest`、`首次`、`最早` 触发两条不同域名可信来源的硬性校验；证据不足就改为限定表述或继续找独立来源。
+- 有多种语言传统时，分别给出词形、译名、借用路径和证据日期，不以翻译日期替代概念形成日期。
+- `get_demo_concept` 只返回离线演示 fixture（含显式标签和复核日期），不是新鲜研究结论。
+- 时间线、问题链、跨领域转移和当前图景中的每个节点都必须呈现完整知识单元；缺少具体实例的证据卡视为不完整。
+- 自动提取仅生成候选，不替代人工审阅；搜索摘要不能成为证据卡。trust score、冲突和不同可比较主张仅是启发式 review signal，不是已经证实的历史结论。
+- `portable` 仅转换常见 LaTex 片段为可读的 Unicode/纯文本；复杂公式应同时交付 `latex` 或 `html` 版本，不把近似转换当作改变原始证据。
 
-Depth: `quick` establishes identity, a small role map, and a compact prerequisite map; `standard` covers every report section with checked sources; `deep` triangulates consequential priority claims, compares scholarly disputes, and expands transfers/current-use communities.
+## 参考资料
 
-## Synthesis gate
-
-Use the exact numbered report order in [the report contract](references/report-contract.md). Separate precursor, coinage, formalization, validation, popularization, adoption, transfer, and reinterpretation; do not collapse them into a great-person narrative. Every consequential claim needs source ID(s) in the ledger before synthesis. Distinguish event dates from publication dates, facts from inferences, and uncertainty from absence of evidence. Score before delivery with [the quality rubric](references/quality-rubric.md).
-
-## Validate and adapt
-
-Run `python3 scripts/validate_report.py REPORT.md [--json]` for structural checks only. It cannot establish authority, provenance, entailment, or historical truth; the research gate remains controlling. For shapes and non-fabricated examples, read [examples](references/examples.md). For the same process in ordinary ChatGPT, use [the portable workflow](references/portable-chatgpt-workflow.md).
+在建卡、审阅绝对优先权主张或评估报告时，读取 [证据卡模式与输出量规](references/evidence-schema-and-rubric.md)。
