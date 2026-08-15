@@ -56,15 +56,32 @@ test -n "$KENABLE_API_KEY" && echo "KENABLE_API_KEY is set" || echo "KENABLE_API
 - 不要提交包含密钥的 `.env` 文件、日志或调试输出。
 - 如果密钥或联网适配器不可用，报告必须标记为 `provisional`，并说明证据限制。
 
-本仓库只提供 Concept Atlas 技能和研究规范，不捆绑 Keenable 密钥或远程研究后端；联网能力由运行环境中的适配器提供。
+本仓库包含 Concept Atlas 技能、本地 MCP server、有界研究引擎和报告渲染器，不捆绑 Keenable 密钥或远程研究后端；联网能力由运行环境中的适配器提供。
 
-## 3. 研究深度
+## 3. 公式输出与报告渲染
+
+`render_concept_report` 和 `research_concept` 支持 `mathMode`：
+
+- `portable`（默认）：将常见 LaTeX 片段转换为普通 Markdown 可读的 Unicode/纯文本公式；
+- `latex`：统一使用 `$...$` 与 `$$...$$`，适合支持 MathJax/KaTeX 的 Markdown 阅读器；
+- `html`：生成带 MathJax 的独立 HTML 报告，并保留 portable Markdown 回退。
+
+命令行渲染示例：
+
+```bash
+bun mcp/scripts/render-report.ts reports/concept-evidence.json reports/concept.md --math=portable
+bun mcp/scripts/render-report.ts reports/concept-evidence.json reports/concept.html --math=html
+```
+
+`html` 报告打开时从 MathJax CDN 加载公式排版器；离线环境请使用 `portable` Markdown。原始证据 JSON 不会被公式转换改写。
+
+## 4. 研究深度
 
 - `quick`：概念身份、简要谱系和初学者入门路径。
 - `standard`：完整的十段式报告。
 - `deep`：优先权互证、学术争议、跨域传播和当前使用细节。
 
-## 4. 插件输出内容
+## 5. 插件输出内容
 
 每份报告包含：
 
@@ -77,7 +94,7 @@ test -n "$KENABLE_API_KEY" && echo "KENABLE_API_KEY is set" || echo "KENABLE_API
 - 不确定性、争议和证据限制；
 - 主张—来源账本与参考文献。
 
-## 5. 证据与历史规则
+## 6. 证据与历史规则
 
 - 区分前驱、命名、形式化、验证、采用、传播和重新解释。
 - 关键主张必须映射到直接来源 URL。
@@ -86,42 +103,44 @@ test -n "$KENABLE_API_KEY" && echo "KENABLE_API_KEY is set" || echo "KENABLE_API
 - 优先权主张优先使用一手来源，并用后续研究解释背景与接受史。
 - 浏览不可用时，输出 `provisional` 报告并披露证据限制。
 
-## 6. 仓库结构
+## 7. 仓库结构
 
 ```text
 .codex-plugin/plugin.json        # 插件清单
+.mcp.json                        # 本地 MCP server 配置
+mcp/                             # 研究引擎、渲染器和 MCP 工具
+demo/                            # 离线演示报告
 skills/concept-atlas/SKILL.md    # 主技能
 skills/concept-atlas/agents/     # Codex 界面元数据
 skills/concept-atlas/references/ # 证据与报告规范
 skills/concept-atlas/scripts/    # 离线校验器与测试
 ```
 
-## 7. 离线校验
+## 8. 离线校验
 
 请在插件目录中运行：
 
 ```bash
 python3 skills/concept-atlas/scripts/validate_report.py REPORT.md --json
 python3 skills/concept-atlas/scripts/test_validate_report.py
+bun test mcp/tests
+bun build ./mcp/server.ts --target=browser --outdir /tmp/concept-atlas-build
 ```
 
 校验器只检查 Markdown 报告结构，不认证来源权威性、历史准确性或主张—来源之间是否存在真实蕴含关系。
 
-## 8. 手工 ChatGPT 工作流
+## 9. 手工 ChatGPT 工作流
 
 如果暂时无法使用插件，可参考 [`portable-chatgpt-workflow.md`](skills/concept-atlas/references/portable-chatgpt-workflow.md) 中的提示词；它沿用同一套证据规则、角色账本和报告契约。
 
-## 9. 发布与安全
+## 10. 发布与安全
 
-本目录可直接作为独立 GitHub 仓库根目录。发布前请运行离线测试，并确认文件和 Git 历史中没有任何密钥。
+本目录可直接作为独立 GitHub 仓库根目录。发布前请运行 Python/Bun 测试，并确认文件和 Git 历史中没有任何密钥、SQLite 数据库、个人研究报告或临时 work 目录。
 
 ```bash
-git init
-git add .
-git commit -m "Initial Concept Atlas plugin"
-git branch -M main
-git remote add origin https://github.com/<OWNER>/<REPOSITORY>.git
-git push -u origin main
+git status
+bun test mcp/tests
+git diff --check
 ```
 
 不要把真实的 `KENABLE_API_KEY` 写入本 README 或仓库中的任何位置。
@@ -180,15 +199,32 @@ Security rules:
 - Never commit `.env` files, logs, or debug output that contain the key.
 - If the key or adapter is unavailable, the report must be marked `provisional` and must disclose the evidence limitation.
 
-The repository contains the Concept Atlas skill and research specifications only. It does not bundle the Keenable key or a remote research backend; web access is provided by the adapter available in the runtime environment.
+The repository contains the Concept Atlas skill, a local MCP server, the bounded research engine, and the report renderer. It does not bundle the Keenable key or a remote research backend; web access is provided by the adapter available in the runtime environment.
 
-## 3. Research depth
+## 3. Formula output and report rendering
+
+`render_concept_report` and `research_concept` support `mathMode`:
+
+- `portable` (default): converts common LaTeX fragments to readable Unicode/plain-text formulas for ordinary Markdown readers;
+- `latex`: normalizes formulas to `$...$` and `$$...$$` for MathJax/KaTeX-compatible Markdown readers;
+- `html`: generates a standalone MathJax HTML report and keeps a portable Markdown fallback.
+
+Example CLI rendering:
+
+```bash
+bun mcp/scripts/render-report.ts reports/concept-evidence.json reports/concept.md --math=portable
+bun mcp/scripts/render-report.ts reports/concept-evidence.json reports/concept.html --math=html
+```
+
+The HTML report loads MathJax from its CDN when opened; use portable Markdown in offline environments. The source evidence JSON is never rewritten by formula conversion.
+
+## 4. Research depth
 
 - `quick`: identity, genealogy, and a beginner entry path.
 - `standard`: the complete ten-section report contract.
 - `deep`: priority cross-checking, scholarly disputes, interdisciplinary transfer, and current-use details.
 
-## 4. What the plugin produces
+## 5. What the plugin produces
 
 Each report includes:
 
@@ -201,7 +237,7 @@ Each report includes:
 - uncertainty, disputes, and evidence limitations;
 - a claim–source ledger and references.
 
-## 5. Evidence and history rules
+## 6. Evidence and history rules
 
 - Distinguish precursor, naming, formalization, validation, adoption, dissemination, and reinterpretation.
 - Map important claims to direct source URLs.
@@ -210,42 +246,44 @@ Each report includes:
 - Prefer primary sources for priority claims, while using later scholarship to explain context and reception.
 - If browsing is unavailable, produce a `provisional` report and disclose the limitation.
 
-## 6. Repository layout
+## 7. Repository layout
 
 ```text
 .codex-plugin/plugin.json        # Plugin manifest
+.mcp.json                        # Local MCP server configuration
+mcp/                             # Research engine, renderer, and MCP tools
+demo/                            # Offline demo report
 skills/concept-atlas/SKILL.md    # Main skill
 skills/concept-atlas/agents/     # Codex UI metadata
 skills/concept-atlas/references/ # Evidence and report guidance
 skills/concept-atlas/scripts/    # Offline validator and tests
 ```
 
-## 7. Offline validation
+## 8. Offline validation
 
 Run these commands from the plugin directory:
 
 ```bash
 python3 skills/concept-atlas/scripts/validate_report.py REPORT.md --json
 python3 skills/concept-atlas/scripts/test_validate_report.py
+bun test mcp/tests
+bun build ./mcp/server.ts --target=browser --outdir /tmp/concept-atlas-build
 ```
 
 The validator checks the structure of a Markdown report. It does not certify source authority, historical accuracy, or whether a source genuinely entails a claim.
 
-## 8. Portable ChatGPT workflow
+## 9. Portable ChatGPT workflow
 
 When the plugin is unavailable, use [`portable-chatgpt-workflow.md`](skills/concept-atlas/references/portable-chatgpt-workflow.md). It preserves the same evidence rules, role ledger, and report contract.
 
-## 9. Publishing and security
+## 10. Publishing and security
 
-This directory is designed to be the root of an independent GitHub repository. Before publishing, run the offline tests and confirm that no credentials are present in the files or Git history.
+This directory is designed to be the root of an independent GitHub repository. Before publishing, run the Python/Bun tests and confirm that no credentials, SQLite databases, personal research reports, or temporary work directories are present in the files or Git history.
 
 ```bash
-git init
-git add .
-git commit -m "Initial Concept Atlas plugin"
-git branch -M main
-git remote add origin https://github.com/<OWNER>/<REPOSITORY>.git
-git push -u origin main
+git status
+bun test mcp/tests
+git diff --check
 ```
 
 Never place a real `KENABLE_API_KEY` in this README or anywhere in the repository.

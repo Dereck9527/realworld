@@ -11,3 +11,10 @@ dist/
 build/
 *.egg-info/
 
+# Local Concept Atlas runtime state and generated research artifacts
+.env
+.env.*
+**/*.sqlite
+**/*.sqlite-*
+**/reports/
+**/work/
